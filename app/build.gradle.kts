@@ -4,11 +4,11 @@ plugins {
 
 android {
     namespace = "algonquin.cst2335.mobilefinalproject"
-    compileSdk = 33
+    compileSdk = 34
 
     defaultConfig {
         applicationId = "algonquin.cst2335.mobilefinalproject"
-        minSdk = 22
+        minSdk = 27
         targetSdk = 33
         versionCode = 1
         versionName = "1.0"
