@@ -43,10 +43,13 @@ import algonquin.cst2335.mobilefinalproject.databinding.DeezerBinding;
 public class Deezer extends AppCompatActivity {
     //?Attributes
 
+    /**
+     * Initialize the Adapter for the Recycle view
+     */
     private RecyclerView.Adapter myAdapter;
 
     /**
-     *
+     * Creates the RequestQueue necessary for the Volley library
      */
     RequestQueue queue = null;
 
@@ -60,18 +63,16 @@ public class Deezer extends AppCompatActivity {
      */
     ArrayList<DeezerAlbum> albumsList = new ArrayList<>();
 
-
     AlbumsViewModel albumModel;
 
     DeezerBinding binding;
-    AlbumBinding ab;
 
-    /*
-    *
+
+    /**
+     * Shared preferences to keep the previous search of the user
      */
     SharedPreferences sp;
 
-    Songs song;
 
     protected Bitmap albumCover;
 
@@ -80,33 +81,53 @@ public class Deezer extends AppCompatActivity {
         binding = DeezerBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        //?Create the Volley
+        /**
+         * Create the Volley
+         */
         queue = Volley.newRequestQueue(this);
 
-        //?Set the toolbar
+        /**
+         * Set the toolbar
+         */
         setTitle("Welcome to Deezer");
         androidx.appcompat.widget.Toolbar toolBar = (binding.toolbar);
         setSupportActionBar(toolBar);
 
-        //?Set the buttons:
+        /**
+         * Calls the Deezer class so we can switch between Playlist and Search functions
+         */
         binding.searchButton.setOnClickListener(click -> {
             Intent intent = new Intent(this, Deezer.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
             startActivity(intent);
         });
 
+        /**
+         * Sends the user to the Playlist page
+         */
         binding.playlistPageButton.setOnClickListener(click ->{
             startActivity(new Intent(this,playlist.class));
         });
 
-        //?
+        /**
+         * Set the Recycle View the deezer layout to linear
+         */
         binding.deezerAlbums.setLayoutManager(new LinearLayoutManager(this));
         albumModel = new ViewModelProvider(this).get(AlbumsViewModel.class);
 
         //?Create the API logic:
+        /**
+         * Event listener for the searchButton.
+         */
         binding.searchButton.setOnClickListener(click -> {
+            /**
+             * Store the user's input in a variable
+             */
             String searchedText = binding.searchText.getText().toString().trim();
 
+            /**
+             * Build the URL to access the Deezer API using the value of the user's input
+             */
             String stringURL = null;
             try {
                 stringURL = "https://api.deezer.com/search/album/?q=" +
@@ -115,31 +136,50 @@ public class Deezer extends AppCompatActivity {
                 throw new RuntimeException(e);
             }
 
-            //* Make a GET request to the API to get the albums of the selected artists:
+            /**
+             * Make a GET request to the API to get the albums of the selected artists:
+             */
             JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, stringURL, null,
                     (response) -> {
                         try {
-                            //* Get the albums array
+                            /**
+                             * Get the albums array
+                             */
                             JSONArray albumArray = response.getJSONArray("data");
 
-                            //* Clear the existing albumsList before adding new data
+                            /**
+                             * Clear the existing albumsList before adding new data
+                             */
                             albumsList.clear();
 
+                            /**
+                             * Iterate over the JSON array holding the albums
+                             */
                             for (int i = 0; i < albumArray.length(); i++) {
-                                //* Get the album's information
-                                JSONObject album0 = albumArray.getJSONObject(i);
-                                long albumId = album0.getLong("id");
-                                String albumName = album0.getString("title");
-                                String albumCoverUrl = album0.getString("cover_xl");
-                                //* Get the artist information
-                                JSONObject artist = album0.getJSONObject("artist");
+                                /**
+                                 * Get the JSON object (album) information
+                                 */
+                                JSONObject album = albumArray.getJSONObject(i);
+                                long albumId = album.getLong("id");
+                                String albumName = album.getString("title");
+                                String albumCoverUrl = album.getString("cover_xl");
+
+                                /**
+                                 * Create a new JSON object holding the artist information
+                                 */
+                                JSONObject artist = album.getJSONObject("artist");
                                 String artistName = artist.getString("name");
 
-                                //*Create a new album and add it to the albums arraylist
-                                DeezerAlbum album = new DeezerAlbum(albumId, albumName, artistName, albumCoverUrl);
-                                albumsList.add(album);
+                                /**
+                                 * Create a new album and add it to the albums arraylist
+                                 */
+                                DeezerAlbum deezerAlbum = new DeezerAlbum(albumId, albumName, artistName, albumCoverUrl);
+                                albumsList.add(deezerAlbum);
                             }
-                            //* Notify the adapter that the data set has changed
+
+                            /**
+                             *  Notify the adapter that the data set has changed
+                             */
                             myAdapter.notifyDataSetChanged();
 
                         } catch (Exception e) {
@@ -148,23 +188,30 @@ public class Deezer extends AppCompatActivity {
                     }
                     ,
                     error -> {
-                        //* Error handler
+                        // Error handler
                         error.printStackTrace();
                     });
             queue.add(request);
         });
 
+        //
         albumModel.selectedAlbums.observe(this, album -> {
             if (album != null){
                 try {
-                    //* Construct the URL for the Deezer API to get the songs (tracks) of the selected album
+                    /**
+                     * Construct the URL for the Deezer API to get the songs (tracks) of the selected album
+                     */
                     String tracksURL = "https://api.deezer.com/album/" + album.getAlbumId() + "/tracks";
 
-                    //* Make a GET request to the API to get the songs of the selected album:
+                    /**
+                     * Make a GET request to the API to get the songs of the selected album:
+                      */
                     JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, tracksURL, null,
                             (response) -> {
                                 try {
-                                    //*Get the array of albums from the response
+                                    /**
+                                     * Get the array of albums from the response
+                                     */
                                     JSONArray songsArray = response.getJSONArray("data");
                                     //*Clear the existing songsList before adding new data
                                     songsList.clear();
@@ -179,7 +226,7 @@ public class Deezer extends AppCompatActivity {
                                         Songs track = new Songs(trackId, trackTitle, duration, album.getTitle(), album.getCoverUrl(), artistName);
                                         songsList.add(track);
                                     }
-                                    // Notify the adapter that the data set has changed
+                                    //* Notify the adapter that the data set has changed
                                     myAdapter.notifyDataSetChanged();
                                 } catch (Exception e) {
                                     e.printStackTrace();
@@ -226,8 +273,13 @@ public class Deezer extends AppCompatActivity {
         });
     }
 
-    //?Set Row holder
+    //TODO Set Album row holder
+
+    /**
+     * Represents the data that will be displayed on the Recycle view in the Album list layout
+     */
     class MyAlbumHolder extends RecyclerView.ViewHolder {
+
         TextView albumName;
         TextView artistName;
         ImageView imageView;
