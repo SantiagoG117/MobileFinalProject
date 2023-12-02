@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".SecondActivity"
+    android:padding="16dp"
+    android:orientation="vertical" >
+
+    <TextView
+        android:id="@+id/word_textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="45dp"
+        android:fontFamily="serif"
+        android:text="hello"
+        android:textSize="52sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/pronunciation_textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="18sp"
+        android:textColor="#1565c0"
+        android:text="hello" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="25dp" >
+
+    <TextView
+        android:onClick="onClickDictionary"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Dictionary"
+        android:textColor="@color/white"
+        android:backgroundTint="#0d47a1"
+        android:paddingLeft="2dp"
+        android:paddingRight="2dp" />
+
+    <TextView
+        android:onClick="onClickSyllables"
+        android:id="@+id/syllables"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Syllables"
+        android:textColor="#0d47a1"
+        android:paddingRight="2dp"
+        android:paddingLeft="2dp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/dictionary_fragSpace"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="16dp"
+        android:orientation="vertical">
+
+    </LinearLayout>
+</LinearLayout>

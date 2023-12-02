@@ -6,13 +6,49 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Hello World!"
-        app:layout_constraintBottom_toBottomOf="parent"
+    <ImageButton
+        android:id="@+id/deezerButton"
+        android:layout_width="match_parent"
+        android:layout_height="183dp"
+        android:background="@android:color/holo_purple"
+        android:src="@drawable/deezer_logo"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageButton
+        android:id="@+id/recipeButton"
+        android:layout_width="match_parent"
+        android:layout_height="183dp"
+        android:background="@android:color/holo_blue_light"
+        android:src="@drawable/recipe"
+        android:text="Button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/deezerButton" />
+
+    <ImageButton
+        android:id="@+id/dictionaryButton"
+        android:layout_width="match_parent"
+        android:layout_height="183dp"
+        android:background="@android:color/holo_red_light"
+        android:src="@drawable/dictionary"
+        android:text="Button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/recipeButton" />
+
+
+    <ImageButton
+        android:id="@+id/sunrisesunsetButton"
+        android:layout_width="match_parent"
+        android:layout_height="183dp"
+        android:background="@android:color/holo_orange_light"
+        android:src="@drawable/sunrise"
+        android:text="Button"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/dictionaryButton" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
