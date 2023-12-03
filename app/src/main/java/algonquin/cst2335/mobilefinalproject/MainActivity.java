@@ -16,7 +16,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         binding.dictionaryButton.setOnClickListener(click -> {
-            startActivity(new Intent(this, DictionaryFragment.class));
+            startActivity(new Intent(this, Dictionary.class));
         });
     }
 }

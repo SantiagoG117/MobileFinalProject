@@ -6,5 +6,6 @@ import androidx.lifecycle.ViewModel;
 import java.util.ArrayList;
 
 public class DictionaryViewModel extends ViewModel {
-        public MutableLiveData<ArrayList<Dictionary.DictionaryItem>> words = new MutableLiveData<>();
+        public MutableLiveData<ArrayList<DictionaryItem>> words = new MutableLiveData<>();
+        public MutableLiveData<DictionaryItem> selectedWord = new MutableLiveData<>();
 }
