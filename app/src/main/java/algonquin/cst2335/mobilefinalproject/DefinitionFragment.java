@@ -22,7 +22,7 @@ public class DefinitionFragment extends Fragment {
         FragmentDefinitionBinding binding = FragmentDefinitionBinding.inflate(inflater);
 
         binding.wordTextView.setText(selected.word);
-        binding.definitionTextView.setText(selected.definition);
+        binding.definitionTextView.setText(selected.definitions.toString());
         return binding.getRoot();
     }
 }

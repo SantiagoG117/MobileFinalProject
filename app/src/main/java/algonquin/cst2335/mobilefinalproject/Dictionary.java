@@ -1,6 +1,7 @@
 package algonquin.cst2335.mobilefinalproject;
 
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -34,33 +35,33 @@ import algonquin.cst2335.mobilefinalproject.databinding.DictionaryMenuBinding;
 import algonquin.cst2335.mobilefinalproject.databinding.FragmentDefinitionBinding;
 
 public class Dictionary extends AppCompatActivity {
-    DictionaryMenuBinding binding;
-    private RecyclerView.Adapter myAdapter;
-    private ArrayList<DictionaryItem> words = new ArrayList<>();
-    private DictionaryViewModel dictionaryModel;
+    private RecyclerView.Adapter<MyRowHolder> myAdapter;
+    private static ArrayList<DictionaryItem> words = new ArrayList<>();
+    private static DictionaryViewModel dictionaryModel;
     private DictionaryItemDAO dDAO;
     private Executor thread = Executors.newSingleThreadExecutor();
+    private DictionaryMenuBinding binding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        binding = DictionaryMenuBinding.inflate(getLayoutInflater());
+        binding = DictionaryMenuBinding.inflate(getLayoutInflater());  // Inflating binding
         setContentView(binding.getRoot());
 
         DictionaryDatabase db = Room.databaseBuilder(getApplicationContext(), DictionaryDatabase.class, "dictionary").build();
         dDAO = db.dictionaryItemDAO();
 
-        binding.recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        RecyclerView recyclerView = binding.recyclerView;  // Updated reference
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
         dictionaryModel = new ViewModelProvider(this).get(DictionaryViewModel.class);
-
-//        words = dictionaryModel.words.getValue();
 
         binding.searchButton.setOnClickListener(click -> {
             String word = binding.searchEditText.getText().toString();
 
             // Create a DictionaryItem object for a word
-            DictionaryItem displayWord = new DictionaryItem(word, "1. A greeting (salutation) said when meeting someone or acknowledging someones arrival or presence");
+            DictionaryItem displayWord = new DictionaryItem(word, new ArrayList<>());
+
             words.add(displayWord);
 
             myAdapter.notifyItemInserted(words.size() - 1);
@@ -75,24 +76,7 @@ public class Dictionary extends AppCompatActivity {
             });
         });
 
-        class MyRowHolder extends RecyclerView.ViewHolder {
-            public TextView wordTextView;
-            public TextView definitionTextView;
-
-            public MyRowHolder(@NonNull View itemView) {
-                super(itemView);
-                wordTextView = itemView.findViewById(R.id.wordTextView);
-                definitionTextView = itemView.findViewById(R.id.definitionTextView);
-
-                itemView.setOnClickListener(clk -> {
-                    int position = getAbsoluteAdapterPosition();
-                    DictionaryItem selected = words.get(position);
-                    dictionaryModel.selectedWord.setValue(selected);
-                });
-            }
-        }
-
-        binding.recyclerView.setAdapter(myAdapter = new RecyclerView.Adapter<MyRowHolder>() {
+        recyclerView.setAdapter(myAdapter = new RecyclerView.Adapter<MyRowHolder>() {
             @NonNull
             @Override
             public MyRowHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -104,7 +88,7 @@ public class Dictionary extends AppCompatActivity {
             public void onBindViewHolder(@NonNull MyRowHolder holder, int position) {
                 DictionaryItem dictionary = words.get(position);
                 holder.wordTextView.setText(dictionary.getWord());
-                holder.definitionTextView.setText(dictionary.getDefinition());
+                holder.definitionTextView.setText(TextUtils.join("\n", dictionary.getDefinition()));
             }
 
             @Override
@@ -113,12 +97,12 @@ public class Dictionary extends AppCompatActivity {
             }
         });
 
-        if (words == null) {
-            dictionaryModel.words.setValue(words = new ArrayList<>());
+        if (words.isEmpty()) {
+            dictionaryModel.words.setValue(words);
 
             thread.execute(() -> {
-                words.addAll(dDAO.getAllWords()); // When you get the data from database
-                runOnUiThread(() -> binding.recyclerView.setAdapter(myAdapter)); // Loads the RecyclerView
+                words.addAll(dDAO.getAllWords()); // When you get the data from the database
+                runOnUiThread(() -> recyclerView.setAdapter(myAdapter)); // Loads the RecyclerView
             });
         }
 
@@ -128,7 +112,7 @@ public class Dictionary extends AppCompatActivity {
             FragmentTransaction tx = fMgr.beginTransaction();
             tx.addToBackStack("");
             tx.replace(R.id.fragmentLocation, wordFrag);
-            tx.commit();
+            tx.commitAllowingStateLoss();
         });
     }
 
@@ -143,14 +127,23 @@ public class Dictionary extends AppCompatActivity {
                     public void onResponse(JSONObject response) {
                         try {
                             JSONArray meanings = response.getJSONArray("meanings");
-                            JSONObject firstMeaning = meanings.getJSONObject(0);
-                            JSONArray definitions = firstMeaning.getJSONArray("definitions");
-                            String definition = definitions.getJSONObject(0).getString("definition");
 
-                            displayWord.setDefinition(definition);
+                            // Clear existing definitions
+                            displayWord.clearDefinitions();
+
+                            // Iterate through meanings and add definitions to the list
+                            for (int i = 0; i < meanings.length(); i++) {
+                                JSONObject meaning = meanings.getJSONObject(i);
+                                JSONArray definitions = meaning.getJSONArray("definitions");
+                                for (int j = 0; j < definitions.length(); j++) {
+                                    String definition = definitions.getJSONObject(j).getString("definition");
+                                    displayWord.addDefinition(definition);
+                                }
+                            }
+
                             myAdapter.notifyDataSetChanged();
 
-                            // Update the definition in the local database
+                            // Update the definitions in the local database
                             thread.execute(() -> {
                                 dDAO.updateItem(displayWord);
                             });
@@ -166,9 +159,23 @@ public class Dictionary extends AppCompatActivity {
                         Log.e("TAG", "API Request Error: " + error.toString());
                     }
                 });
-
         queue.add(request);
     }
 
-}
+    static class MyRowHolder extends RecyclerView.ViewHolder {
+        public TextView wordTextView;
+        public TextView definitionTextView;
 
+        public MyRowHolder(@NonNull View itemView) {
+            super(itemView);
+            wordTextView = itemView.findViewById(R.id.wordTextView);
+            definitionTextView = itemView.findViewById(R.id.definitionTextView);
+
+            itemView.setOnClickListener(clk -> {
+                int position = getAbsoluteAdapterPosition();
+                DictionaryItem selected = words.get(position);
+                dictionaryModel.selectedWord.postValue(selected);
+            });
+        }
+    }
+}
