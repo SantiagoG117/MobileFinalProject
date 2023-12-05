@@ -49,12 +49,22 @@ import algonquin.cst2335.mobilefinalproject.databinding.SongPlaylistBinding;
 
 public class playlist extends AppCompatActivity {
 
+    /**
+     * Initialize the Adapter for the Recycle view
+     */
     private RecyclerView.Adapter myAdapter;
     private RecyclerView recyclerView;
     private SongsViewModel songsViewModel;
     private ActivityPlaylistBinding binding;
     private SongsAdapter songsAdapter;
+    /**
+     * Creates the RequestQueue necessary for the Volley library
+     */
     private RequestQueue queue;
+
+    /**
+     * Stores the songs from the API
+     */
     private List<Songs> songsList = new ArrayList<>();
     MediaPlayer mediaPlayer;
 
@@ -63,28 +73,36 @@ public class playlist extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = ActivityPlaylistBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-
-        setTitle("Your Deezer Playlist");
+        setTitle("Your Playlist");
 
         setSupportActionBar(binding.toolbar);
 
-        queue = Volley.newRequestQueue(this);
 
+
+        /**
+         * Create the Volley
+         */
+        queue = Volley.newRequestQueue(this);
         songsAdapter = new SongsAdapter(songsList);
         songsViewModel = new ViewModelProvider(this).get(SongsViewModel.class);
 
+        //?Sets the logic for travel between the playlist layout and the main deezer layout
         binding.searchPageButton.setOnClickListener(click -> {
             Intent intent = new Intent(this, Deezer.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
             startActivity(intent);
         });
-
         binding.playlistPageButton.setOnClickListener(click -> {
             startActivity(new Intent(this, playlist.class));
         });
 
+
+        /**
+         * Build the database for the Playlist
+         */
         SongsDatabase songsDatabase = Room.databaseBuilder(getApplicationContext(), SongsDatabase.class, "deezerDB").build();
         DeezerDAO dDao = songsDatabase.deezerDao();
+
 
         binding.searchButton.setOnClickListener(c -> {
 
@@ -128,6 +146,7 @@ public class playlist extends AppCompatActivity {
         recyclerView.setAdapter(songsAdapter);
 
     }
+
 
 
     public class SongsViewHolder extends RecyclerView.ViewHolder {
@@ -197,7 +216,6 @@ public class playlist extends AppCompatActivity {
         SongsAdapter(List<Songs> songsList) {
             this.songsList = songsList;
         }
-
 
 
         @NonNull
@@ -306,6 +324,7 @@ public class playlist extends AppCompatActivity {
             });
 
         }
+
         private void playPreview(String previewUrl) {
             if (mediaPlayer != null && mediaPlayer.isPlaying()) {
                 mediaPlayer.stop();
@@ -350,7 +369,16 @@ public class playlist extends AppCompatActivity {
             case R.id.recipe:
                 // startActivity(new Intent(this, dictionary.class));
                 break;
+            case R.id.info:
+                AlertDialog.Builder builder = new AlertDialog.Builder(playlist.this);
+                builder.setMessage(("Info: \n Create your very own deezer playlists here \n 1. click on the Search Icon to look up your favourite artists and youll receive a list of their albums \n 2. Click on any album and all of their tracks within the album will be displayed for you to save \n 3. click on the 3 dotted icon to preview or save your song \n 4. Go ahead ahead and click the playlist icon and all of your favourite music will be displayed. \n 5. You are able to delete any song from your playlist with a click of a button. \n 6. Most important step Enjoy Deezer"))
+                        .setTitle("Welcome To Deezer")
+                        .setPositiveButton("Okay", (dialog, which) -> {
+                            dialog.dismiss();
+                        }).show();}
+                return true;
         }
-        return true;}
+
+
 
 }

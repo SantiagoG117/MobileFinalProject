@@ -39,6 +39,7 @@ import algonquin.cst2335.mobilefinalproject.databinding.AlbumlistLayoutBinding;
 import algonquin.cst2335.mobilefinalproject.databinding.SongBinding;
 
 public class AlbumDetailFragment extends Fragment {
+    //?Attributes
     AlbumlistLayoutBinding albumlistLayoutBinding;
     private RecyclerView recyclerView;
     private SongsAdapter songsAdapter;
@@ -47,10 +48,10 @@ public class AlbumDetailFragment extends Fragment {
     private MediaPlayer mediaPlayer;
 
     SongsViewModel songModel;
-    DeezerAlbum album;
+    DeezerAlbumDTO album;
 
     //* Transfer DeezerAlbum object to the fragment
-    public AlbumDetailFragment(List<Songs> songsList, DeezerAlbum album, RequestQueue queue) {
+    public AlbumDetailFragment(List<Songs> songsList, DeezerAlbumDTO album, RequestQueue queue) {
         this.songsList = songsList;
         this.album = album;
         this.queue = queue;
@@ -59,14 +60,17 @@ public class AlbumDetailFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        AlbumlistLayoutBinding albumlistLayoutBinding =
-                AlbumlistLayoutBinding.inflate(getLayoutInflater(), container, false);
+        //*Inflates the layout albumlist_layout
+        AlbumlistLayoutBinding albumlistLayoutBinding = AlbumlistLayoutBinding.inflate(getLayoutInflater(), container, false);
 
 
         songModel = new ViewModelProvider(this).get(SongsViewModel.class);
+
+        //*Set the fields for album name and artist name from the album passed as argument
         albumlistLayoutBinding.albumNameF.setText(album.getTitle());
         albumlistLayoutBinding.artistNameF.setText(album.getArtistName());
 
+        //*Set the album cover:
         String pathname = getActivity().getFilesDir() + "/" + album.getCoverUrl();
         File file = new File(pathname);
 
@@ -97,8 +101,10 @@ public class AlbumDetailFragment extends Fragment {
             queue.add(imgReq);
 
         }
+
         setHasOptionsMenu(true);
         recyclerView = albumlistLayoutBinding.albumsSongsL;
+        //Set the layout of the recycle view
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         songsAdapter = new SongsAdapter(songsList);
         recyclerView.setAdapter(songsAdapter);
@@ -107,7 +113,9 @@ public class AlbumDetailFragment extends Fragment {
     }
 
 
-    //* Inner class for SongsViewHolder
+    /**
+     * Represents the data that will be displayed in the recycle view albumsSongsL
+     */
     public class SongsViewHolder extends RecyclerView.ViewHolder {
         TextView titleTextView;
         TextView artistTextView;
@@ -125,7 +133,9 @@ public class AlbumDetailFragment extends Fragment {
     }
 
 
-    // Inner class for SongsAdapter
+    /**
+     * Notifies the albumSongs recycle view about any changes within the recyclerview
+     */
     class SongsAdapter extends RecyclerView.Adapter<SongsViewHolder> {
 
         private List<Songs> songsList;
@@ -138,6 +148,7 @@ public class AlbumDetailFragment extends Fragment {
         @NonNull
         @Override
         public SongsViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+            //* Inflates the song layout
             SongBinding songBinding = SongBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
 
             return new SongsViewHolder(songBinding.getRoot());
@@ -146,21 +157,24 @@ public class AlbumDetailFragment extends Fragment {
         @Override
         public void onBindViewHolder(@NonNull SongsViewHolder holder, int position) {
 
+            //*Sets data for each song in the recycler view according to the position
             Songs song = songsList.get(position);
             holder.titleTextView.setText(song.getTitle());
             holder.artistTextView.setText(song.getArtistName());
             holder.durationTextView.setText(formatDuration(song.getDuration()));
 
-            //* Replace the toolbar with our menu resource
+            //* Set the songmenu to add to add a song or play its preview
             androidx.appcompat.widget.Toolbar toolbar = holder.songmenu;
             toolbar.inflateMenu(R.menu.songmenu);
 
 
+            //*Sets the logic to store a song in a playlist
             toolbar.setOnMenuItemClickListener(item -> {
                 SongsDatabase songsDatabase = Room.databaseBuilder(requireContext(),SongsDatabase.class, "deezerDB").build();
                 DeezerDAO dDao = songsDatabase.deezerDao();
 
                 switch (item.getItemId()) {
+                    // Add to playlist option selected
                     case R.id.addToPlaylist:
                         AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
                         builder.setMessage("Do you want to add this song to your playlist?")
@@ -181,7 +195,7 @@ public class AlbumDetailFragment extends Fragment {
 //                                        songsList.add(songToAdd); // remove from the array list
 //                                        songsAdapter.notifyItemChanged(position); // notify the adapter of the removal
 
-                                        Snackbar.make(requireView(), "Song added to playlist", Snackbar.LENGTH_LONG)
+                                        Snackbar.make(requireView(), "Song added", Snackbar.LENGTH_LONG)
                                                 .setAction("Undo", (btn) -> {
                                                     Executor thread2 = Executors.newSingleThreadExecutor();
                                                     thread2.execute(() -> {
@@ -197,7 +211,7 @@ public class AlbumDetailFragment extends Fragment {
                                 });
                         builder.create().show();
                         break;
-                    case R.id.songPreview:
+                    case R.id.songPreview: //Song preview logic
                         try {
                             //* Construct the URL for the Deezer API to get the songs (tracks) of the selected album
                             String tracksURL = "https://api.deezer.com/album/" + album.getAlbumId() + "/tracks";

@@ -9,4 +9,6 @@
     <item android:title="Dictionary"
         android:id="@+id/dictionary"
         />
+    <item android:title="Info"
+        android:id="@+id/info"/>
 </menu>

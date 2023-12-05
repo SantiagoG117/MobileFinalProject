@@ -2,7 +2,6 @@ package algonquin.cst2335.mobilefinalproject;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
@@ -12,9 +11,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toolbar;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -40,10 +39,14 @@ import java.util.ArrayList;
 import algonquin.cst2335.mobilefinalproject.databinding.AlbumBinding;
 import algonquin.cst2335.mobilefinalproject.databinding.DeezerBinding;
 
+/**
+ * Launch class in charge of triggering the Deezer application
+ */
 public class Deezer extends AppCompatActivity {
     //?Attributes
 
     /**
+     *
      * Initialize the Adapter for the Recycle view
      */
     private RecyclerView.Adapter myAdapter;
@@ -61,18 +64,12 @@ public class Deezer extends AppCompatActivity {
     /**
      * Stores the albums from the API
      */
-    ArrayList<DeezerAlbum> albumsList = new ArrayList<>();
+    ArrayList<DeezerAlbumDTO> albumsList = new ArrayList<>();
 
     AlbumsViewModel albumModel;
+    SongsViewModel songModel;
 
     DeezerBinding binding;
-
-
-    /**
-     * Shared preferences to keep the previous search of the user
-     */
-    SharedPreferences sp;
-
 
     protected Bitmap albumCover;
 
@@ -89,7 +86,15 @@ public class Deezer extends AppCompatActivity {
         /**
          * Set the toolbar
          */
-        setTitle("Welcome to Deezer");
+        setTitle("Deezer");
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(Deezer.this);
+        builder.setMessage(("Info: \n Create your very own deezer playlists here \n 1. click on the Search Icon to look up your favourite artists and youll receive a list of their albums \n 2. Click on any album and all of their tracks within the album will be displayed for you to save \n 3. click on the 3 dotted icon to preview or save your song \n 4. Go ahead ahead and click the playlist icon and all of your favourite music will be displayed. \n 5. You are able to delete any song from your playlist with a click of a button. \n 6. Most important step Enjoy Deezer"))
+                .setTitle("Welcome To Deezer")
+                .setPositiveButton("Okay", (dialog, which) -> {
+                    dialog.dismiss();
+                }).show();
+
         androidx.appcompat.widget.Toolbar toolBar = (binding.toolbar);
         setSupportActionBar(toolBar);
 
@@ -173,8 +178,10 @@ public class Deezer extends AppCompatActivity {
                                 /**
                                  * Create a new album and add it to the albums arraylist
                                  */
-                                DeezerAlbum deezerAlbum = new DeezerAlbum(albumId, albumName, artistName, albumCoverUrl);
-                                albumsList.add(deezerAlbum);
+                                DeezerAlbumDTO deezerAlbumDTO = new DeezerAlbumDTO(albumId, albumName, artistName, albumCoverUrl);
+                                albumsList.add(deezerAlbumDTO);
+                                //Prevent the application from crashing when the phone rotates its view
+                                albumModel.deezerAlbum.postValue(albumsList);
                             }
 
                             /**
@@ -194,7 +201,9 @@ public class Deezer extends AppCompatActivity {
             queue.add(request);
         });
 
-        //
+        /**
+         * Observer to be triggered when an album is selected
+         */
         albumModel.selectedAlbums.observe(this, album -> {
             if (album != null){
                 try {
@@ -210,31 +219,50 @@ public class Deezer extends AppCompatActivity {
                             (response) -> {
                                 try {
                                     /**
-                                     * Get the array of albums from the response
+                                     * Get the array of songs from the selected album
                                      */
                                     JSONArray songsArray = response.getJSONArray("data");
                                     //*Clear the existing songsList before adding new data
                                     songsList.clear();
 
+                                    /**
+                                     * Iterate over the album's songs and extract their information
+                                     */
                                     for (int i = 0; i < songsArray.length(); i++) {
                                         JSONObject trackObject = songsArray.getJSONObject(i);
-                                        long trackId = trackObject.getLong("id");
-                                        String trackTitle = trackObject.getString("title");
+                                        long songID = trackObject.getLong("id");
+                                        String songTitle = trackObject.getString("title");
                                         String artistName = trackObject.getJSONObject("artist").getString("name");
                                         int duration = trackObject.getInt("duration");
 
-                                        Songs track = new Songs(trackId, trackTitle, duration, album.getTitle(), album.getCoverUrl(), artistName);
-                                        songsList.add(track);
+                                        //Create a new song:
+                                        Songs song = new Songs(songID, songTitle, duration, album.getTitle(), album.getCoverUrl(), artistName);
+                                        //Add the songs to the songsList
+                                        songsList.add(song);
+
+                                        //Prevent the application from crashing when the phone rotates its view
+                                        songModel.songs.postValue(songsList);
                                     }
-                                    //* Notify the adapter that the data set has changed
+
+
+
+                                    /**
+                                     * Notify the adapter that the data set has changed
+                                     */
                                     myAdapter.notifyDataSetChanged();
                                 } catch (Exception e) {
                                     e.printStackTrace();
                                 }
-                                AlbumDetailFragment albumDetailFragment = new AlbumDetailFragment(songsList, album,queue);
+                                /**
+                                 * Create the fragment containing the songs.
+                                 * Displays album cover, album name and artist name
+                                 * Displays all the songs within the album
+                                 * Songs are stored in the recycle view
+                                 */
+                                AlbumDetailFragment albumDetailFragment = new AlbumDetailFragment(songsList, album, queue);
                                 FragmentManager fragmentManager = getSupportFragmentManager();
                                 FragmentTransaction transaction = fragmentManager.beginTransaction();
-
+                                //TODO
                                 transaction.addToBackStack("");
                                 transaction.replace(R.id.albumFragment, albumDetailFragment);
                                 transaction.commit();
@@ -252,18 +280,23 @@ public class Deezer extends AppCompatActivity {
             }
         });
 
+        /**
+         *
+         */
         binding.deezerAlbums.setAdapter(myAdapter = new RecyclerView.Adapter<MyAlbumHolder>() {
             @NonNull
             @Override
             public MyAlbumHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-                AlbumBinding ab = AlbumBinding.inflate(getLayoutInflater(), parent, false);
-                return new MyAlbumHolder(ab.getRoot());
+                //Inflates the album layout
+                AlbumBinding albumBinding = AlbumBinding.inflate(getLayoutInflater(), parent, false);
+                return new MyAlbumHolder(albumBinding.getRoot());
             }
 
             @Override
             public void onBindViewHolder(@NonNull MyAlbumHolder holder, int position) {
-                DeezerAlbum deezerAlbum = albumsList.get(position);
-                holder.bind(deezerAlbum);
+                //Sets the data for each row in the recyclerview according to the position and size within the albums list
+                DeezerAlbumDTO deezerAlbumDTO = albumsList.get(position);
+                holder.bind(deezerAlbumDTO);
             }
 
             @Override
@@ -283,27 +316,35 @@ public class Deezer extends AppCompatActivity {
         TextView albumName;
         TextView artistName;
         ImageView imageView;
-        Toolbar albumMenu;
-
 
         public MyAlbumHolder(@NonNull View itemView) {
             super(itemView);
+            /*
+            * Determines the album that was selected and its position. Then it initialize the
+            * given album.
+             */
             itemView.setOnClickListener(c -> {
                 int position = getAbsoluteAdapterPosition();
-                DeezerAlbum selected = albumsList.get(position);
+                DeezerAlbumDTO selected = albumsList.get(position);
                 albumModel.selectedAlbums.postValue(selected);
             });
+
 
             albumName = itemView.findViewById(R.id.albumName);
             artistName = itemView.findViewById(R.id.artistName);
             imageView = itemView.findViewById(R.id.albumCover);
         }
 
-        public void bind(DeezerAlbum deezerAlbum) {
-            albumName.setText(deezerAlbum.getTitle());
-            artistName.setText(deezerAlbum.getArtistName());
 
-            String pathname = getFilesDir() + "/" + deezerAlbum.getCoverUrl();
+        /**
+         * Fills the data for the album passed as parameter
+         * @param deezerAlbumDTO
+         */
+        public void bind(DeezerAlbumDTO deezerAlbumDTO) {
+            albumName.setText(deezerAlbumDTO.getTitle());
+            artistName.setText(deezerAlbumDTO.getArtistName());
+
+            String pathname = getFilesDir() + "/" + deezerAlbumDTO.getCoverUrl();
             File file = new File(pathname);
 
             if (file.exists()) {
@@ -311,14 +352,14 @@ public class Deezer extends AppCompatActivity {
                 imageView.setImageBitmap(albumCover);
                 imageView.setVisibility(View.VISIBLE);
             } else {
-                ImageRequest imgReq = new ImageRequest(deezerAlbum.getCoverUrl(), new Response.Listener<Bitmap>() {
+                ImageRequest imgReq = new ImageRequest(deezerAlbumDTO.getCoverUrl(), new Response.Listener<Bitmap>() {
                     @Override
                     public void onResponse(Bitmap bitmap) {
                         imageView.setImageBitmap(bitmap);
                         imageView.setVisibility(View.VISIBLE);
                         try {
                             bitmap.compress(Bitmap.CompressFormat.PNG, 100,
-                                    Deezer.this.openFileOutput(deezerAlbum.getArtistName() + ".png", Activity.MODE_PRIVATE));
+                                    Deezer.this.openFileOutput(deezerAlbumDTO.getArtistName() + ".png", Activity.MODE_PRIVATE));
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
@@ -340,7 +381,7 @@ public class Deezer extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        switch(item.getItemId()){
+        switch(item.getItemId()) {
             case R.id.sunrise:
 //                startActivity(new Intent(this, Sunrise.class));
                 break;
@@ -350,8 +391,14 @@ public class Deezer extends AppCompatActivity {
             case R.id.recipe:
 //                startActivity(new Intent(this, dictionary.class));
                 break;
+            case R.id.info:
+                AlertDialog.Builder builder = new AlertDialog.Builder(Deezer.this);
+                builder.setMessage(("Info: \n Create your very own deezer playlists here \n 1. click on the Search Icon to look up your favourite artists and you will receive a list of their albums \n 2. Click on any album and all of their tracks within the album will be displayed for you to save \n 3. click on the 3 dotted icon to preview or save your song \n 4. Go ahead ahead and click the playlist icon and all of your favourite music will be displayed. \n 5. You are able to delete any song from your playlist with a click of a button."))
+                        .setTitle("Welcome To Deezer")
+                        .setPositiveButton("Okay", (dialog, which) -> {
+                            dialog.dismiss();
+                        }).show();
         }
-
         return true;
     }
 

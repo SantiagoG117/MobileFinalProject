@@ -3,7 +3,7 @@ package algonquin.cst2335.mobilefinalproject;
 import androidx.room.ColumnInfo;
 import androidx.room.PrimaryKey;
 
-public class DeezerAlbum {
+public class DeezerAlbumDTO {
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name="id")
     private long albumId;
@@ -23,7 +23,7 @@ public class DeezerAlbum {
 
     private String albumLabel;
 
-    public DeezerAlbum(long albumId, String title, String artistName, String coverUrl) {
+    public DeezerAlbumDTO(long albumId, String title, String artistName, String coverUrl) {
         this.albumId = albumId;
         this.title = title;
         this.artistName = artistName;

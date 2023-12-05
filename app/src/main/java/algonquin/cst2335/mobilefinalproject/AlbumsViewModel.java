@@ -11,8 +11,8 @@ import java.util.ArrayList;
  */
 public class AlbumsViewModel extends ViewModel {
 
-    public MutableLiveData<ArrayList<DeezerAlbum>> deezerAlbum = new MutableLiveData<>();
+    public MutableLiveData<ArrayList<DeezerAlbumDTO>> deezerAlbum = new MutableLiveData<>();
 
-    public MutableLiveData<DeezerAlbum> selectedAlbums = new MutableLiveData<>();
+    public MutableLiveData<DeezerAlbumDTO> selectedAlbums = new MutableLiveData<>();
 
 }

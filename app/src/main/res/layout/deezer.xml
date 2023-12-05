@@ -54,24 +54,13 @@
         android:textColor="@color/white"
         />
 
-    <ImageButton
-        android:id="@+id/historyPageButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="15dp"
-        android:layout_marginBottom="10dp"
-        android:background="@color/purple"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:srcCompat="@drawable/history"
-        tools:ignore="ContentDescription" />
 
     <ImageButton
         android:id="@+id/playlistPageButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="15dp"
-        android:layout_marginBottom="10dp"
+        android:layout_marginStart="80dp"
+        android:layout_marginBottom="8dp"
         android:background="@color/purple"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -82,11 +71,11 @@
         android:id="@+id/searchPageButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="10dp"
+        android:layout_marginEnd="80dp"
+        android:layout_marginBottom="8dp"
         android:background="@color/purple"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/historyPageButton"
-        app:layout_constraintStart_toEndOf="@+id/playlistPageButton"
+        app:layout_constraintEnd_toEndOf="parent"
         app:srcCompat="@drawable/search"
         tools:ignore="ContentDescription" />
 
