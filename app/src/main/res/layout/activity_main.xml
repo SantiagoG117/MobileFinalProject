@@ -6,35 +6,50 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <Button
-        android:id="@+id/deezer"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Button"
-        tools:layout_editor_absoluteX="68dp"
-        tools:layout_editor_absoluteY="182dp" />
 
-    <Button
-        android:id="@+id/button2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Button"
-        tools:layout_editor_absoluteX="267dp"
-        tools:layout_editor_absoluteY="212dp" />
+    <ImageButton
+        android:id="@+id/deezerButton"
+        android:layout_width="match_parent"
+        android:layout_height="183dp"
+        android:background="@android:color/holo_purple"
+        android:src="@drawable/deezer_logo"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-    <Button
-        android:id="@+id/button3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+    <ImageButton
+        android:id="@+id/recipeButton"
+        android:layout_width="match_parent"
+        android:layout_height="183dp"
+        android:background="@android:color/holo_blue_light"
+        android:src="@drawable/recipe"
         android:text="Button"
-        tools:layout_editor_absoluteX="68dp"
-        tools:layout_editor_absoluteY="465dp" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/deezerButton" />
 
-    <Button
-        android:id="@+id/button4"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+    <ImageButton
+        android:id="@+id/dictionaryButton"
+        android:layout_width="match_parent"
+        android:layout_height="183dp"
+        android:background="@android:color/holo_red_light"
+        android:src="@drawable/dictionary"
         android:text="Button"
-        tools:layout_editor_absoluteX="287dp"
-        tools:layout_editor_absoluteY="482dp" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/recipeButton" />
+
+
+    <ImageButton
+        android:id="@+id/sunrisesunsetButton"
+        android:layout_width="match_parent"
+        android:layout_height="183dp"
+        android:background="@android:color/holo_orange_light"
+        android:src="@drawable/sunrise"
+        android:text="Button"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/dictionaryButton" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
