@@ -2,4 +2,19 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+
+    <color name="beefBlue">#42BEEF</color>
+    <color name="beefGreen">#BEEF42</color>
+
+    <!--Colour codes/inspiration from https://colorcodes.io  -->
+    <color name="pumpkin">#D76B00</color>
+    <color name="pumpkinLite">#DD9042</color>
+    <color name="blue">#0E2B8A</color>
+    <color name="heliconia">#DB3E79</color>
+    <color name="aubergine">#693C5E</color>
+    <color name="lilac">#C6A1CF</color>
+    <color name="lettuce">#6D8F36</color>
+    <color name="oatmeal">#CFCBAB</color>
+    <color name="offWhite">#F2E9EA</color>
+
 </resources>

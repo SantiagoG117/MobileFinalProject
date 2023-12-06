@@ -1,5 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
-<!-- Strings for Menu overflow selections -->
     <string name="app_name">MobileFinalProject</string>
     <string name="helpMenuString">To search for a recipe, enter keywords into the search bar on the home page.\n\n
                         Once you\'ve found a recipe you like, select it to save it to your Cookbook.\n\n
