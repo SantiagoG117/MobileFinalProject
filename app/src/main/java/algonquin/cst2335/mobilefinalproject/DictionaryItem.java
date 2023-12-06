@@ -5,51 +5,37 @@ import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
 import java.util.ArrayList;
-import java.util.List;
 
-@Entity
-public class DictionaryItem {
+@Entity(tableName = "word_definitions")
+public class DictionaryItem extends ArrayList<DictionaryItem> {
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "id")
-    public int id = 0;
+    public int id;
 
     @ColumnInfo(name = "word")
     protected String word;
 
     @ColumnInfo(name = "definition")
-    protected List<String> definitions;
+    protected String definitions;
 
-    public DictionaryItem() {
-        definitions = new ArrayList<>();
+    public DictionaryItem(String word, String definitions) {
+        this.word = word;
+        this.definitions = definitions;
     }
 
-    public DictionaryItem(String w, List<String> d) {
-        word = w;
-        definitions = d;
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getWord() {
         return word;
     }
 
-    public List<String> getDefinition() {
+    public String getDefinitions() {
         return definitions;
-    }
-
-    public void setDefinition(List<String> definition) {
-        this.definitions = definition;
-    }
-
-    public void clearDefinitions() {
-        if (definitions != null) {
-            definitions.clear();
-        }
-    }
-
-    public void addDefinition(String definition) {
-        if (definitions == null) {
-            definitions = new ArrayList<>();
-        }
-        this.definitions.add(definition);
     }
 }

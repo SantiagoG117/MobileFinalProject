@@ -4,21 +4,27 @@ import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.Query;
-import androidx.room.Update;
 
 import java.util.List;
 
 @Dao
 public interface DictionaryItemDAO {
+
     @Insert
-    long insertItem(DictionaryItem d);
-
-    @Query("Select * from DictionaryItem")
-    List<DictionaryItem> getAllWords();
-
-    @Update
-    void updateItem(DictionaryItem dictionaryItem);
+    void insertItemDefinition(DictionaryItem wordDefinition);
 
     @Delete
-    void deleteItem(DictionaryItem d);
+    void deleteItemDefinition(DictionaryItem word);
+
+    @Query("Select * from word_definitions")
+    List<DictionaryItem> getAllWords();
+
+    @Query("Select * from word_definitions")
+    List<DictionaryItem> getAllItemDefinitions();
+
+    @Query("SELECT * FROM word_definitions WHERE word = :word")
+    List<DictionaryItem> getSpecificWords(String word);
+
+    @Query("DELETE FROM word_definitions WHERE word = :word")
+    void deleteWord(String word);
 }
