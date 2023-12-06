@@ -414,14 +414,19 @@ public class Deezer extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch(item.getItemId()) {
-            case R.id.sunrise:
+/*            case R.id.sunrise:
 //                startActivity(new Intent(this, Sunrise.class));
                 break;
             case R.id.dictionary:
 //                startActivity(new Intent(this, dictionary.class));
                 break;
             case R.id.recipe:
-//                startActivity(new Intent(this, dictionary.class));
+//                startActivity(new Intent(this, dictionary.
+class));
+                break;*/
+            case R.id.main:
+                Intent exit = new Intent(Deezer.this, MainActivity.class);
+                startActivity(exit);
                 break;
             case R.id.info:
                 AlertDialog.Builder builder = new AlertDialog.Builder(Deezer.this);

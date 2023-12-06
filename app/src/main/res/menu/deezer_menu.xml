@@ -2,13 +2,13 @@
 <menu xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <item android:title="Sunrise &amp; Sunset"
-        android:id="@+id/sunrise"/>
-    <item android:title="Recipe"
+    <item android:title="Main Menu"
+        android:id="@+id/main"/>
+    <!--<item android:title="Recipe"
         android:id="@+id/recipe"/>
     <item android:title="Dictionary"
         android:id="@+id/dictionary"
-        />
+        />-->
     <item android:title="Info"
         android:id="@+id/info"/>
 </menu>
