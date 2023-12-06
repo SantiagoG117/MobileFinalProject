@@ -7,6 +7,10 @@ import android.os.Bundle;
 
 import algonquin.cst2335.mobilefinalproject.databinding.ActivityMainBinding;
 
+/**
+ * @Author Santiago Garcia
+ * Main Activity for the Deezer application
+ */
 public class MainActivity extends AppCompatActivity {
 
     /*

@@ -38,6 +38,11 @@ import java.util.concurrent.Executors;
 import algonquin.cst2335.mobilefinalproject.databinding.AlbumlistLayoutBinding;
 import algonquin.cst2335.mobilefinalproject.databinding.SongBinding;
 
+/**
+ * @Author Santiago Garcia
+ *
+ * Displays the fragment to represent the songs of an album
+ */
 public class AlbumDetailFragment extends Fragment {
     //?Attributes
     AlbumlistLayoutBinding albumlistLayoutBinding;
@@ -50,17 +55,34 @@ public class AlbumDetailFragment extends Fragment {
     SongsViewModel songModel;
     DeezerAlbumDTO album;
 
-    //* Transfer DeezerAlbum object to the fragment
+    /** Transfer DeezerAlbum object to the fragment
+     *
+     */
+
     public AlbumDetailFragment(List<Songs> songsList, DeezerAlbumDTO album, RequestQueue queue) {
         this.songsList = songsList;
         this.album = album;
         this.queue = queue;
     }
 
+    /**
+     * Responsible for creating a layout for each row
+     * @param inflater The LayoutInflater object that can be used to inflate
+     * any views in the fragment,
+     * @param container If non-null, this is the parent view that the fragment's
+     * UI should be attached to.  The fragment should not add the view itself,
+     * but this can be used to generate the LayoutParams of the view.
+     * @param savedInstanceState If non-null, this fragment is being re-constructed
+     * from a previous saved state as given here.
+     *
+     * @return
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        //*Inflates the layout albumlist_layout
+        /**
+         * Inflates the layout albumlist_layout
+         */
         AlbumlistLayoutBinding albumlistLayoutBinding = AlbumlistLayoutBinding.inflate(getLayoutInflater(), container, false);
 
 
@@ -113,8 +135,8 @@ public class AlbumDetailFragment extends Fragment {
     }
 
 
-    /**
-     * Represents the data that will be displayed in the recycle view albumsSongsL
+    /**Represents the data that will be displayed in the recycle view albumsSongsL
+     *
      */
     public class SongsViewHolder extends RecyclerView.ViewHolder {
         TextView titleTextView;
@@ -154,6 +176,12 @@ public class AlbumDetailFragment extends Fragment {
             return new SongsViewHolder(songBinding.getRoot());
         }
 
+        /** Responsible for setting the objects in the layout for the row based on a position
+         *
+         * @param holder   The ViewHolder which should be updated to represent the contents of the
+         *                 item at the given position in the data set.
+         * @param position The position of the item within the adapter's data set.
+         */
         @Override
         public void onBindViewHolder(@NonNull SongsViewHolder holder, int position) {
 
@@ -263,6 +291,10 @@ public class AlbumDetailFragment extends Fragment {
 
         }
 
+        /** Allows to play the preview of each song
+         *
+         * @param previewUrl
+         */
         private void playPreview(String previewUrl) {
             if (mediaPlayer != null && mediaPlayer.isPlaying()) {
                 mediaPlayer.stop();
@@ -284,13 +316,21 @@ public class AlbumDetailFragment extends Fragment {
         }
 
 
+        /**
+         *
+         * @return the size of the list holding the songs
+         */
         @Override
         public int getItemCount () {
             return songsList.size();
         }
 
+        /**
+         *
+         * @param duration
+         * @return the duration of the song in minutes:seconds format
+         */
         private String formatDuration ( int duration){
-            // You can implement a custom format for the duration if needed
             int minutes = duration / 60;
             int seconds = duration % 60;
             return String.format("%02d:%02d", minutes, seconds);

@@ -47,6 +47,10 @@ import java.util.concurrent.Executors;
 import algonquin.cst2335.mobilefinalproject.databinding.ActivityPlaylistBinding;
 import algonquin.cst2335.mobilefinalproject.databinding.SongPlaylistBinding;
 
+/**
+ * @Author Santiago Garcia
+ * Renders the layout and functionality for the Playlist page
+ */
 public class playlist extends AppCompatActivity {
 
     /**
@@ -68,6 +72,13 @@ public class playlist extends AppCompatActivity {
     private List<Songs> songsList = new ArrayList<>();
     MediaPlayer mediaPlayer;
 
+    /**
+     * Launching code for the Playlist page (activity)
+     * @param savedInstanceState If the activity is being re-initialized after
+     *     previously being shut down then this Bundle contains the data it most
+     *     recently supplied in {@link #onSaveInstanceState}.  <b><i>Note: Otherwise it is null.</i></b>
+     *
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -86,7 +97,9 @@ public class playlist extends AppCompatActivity {
         songsAdapter = new SongsAdapter(songsList);
         songsViewModel = new ViewModelProvider(this).get(SongsViewModel.class);
 
-        //?Sets the logic for travel between the playlist layout and the main deezer layout
+        /**
+         * Sets the logic for travel between the playlist layout and the main deezer layout
+         */
         binding.searchPageButton.setOnClickListener(click -> {
             Intent intent = new Intent(this, Deezer.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
@@ -148,7 +161,9 @@ public class playlist extends AppCompatActivity {
     }
 
 
-
+    /**
+     * Represents the data that will be displayed on the Recycle view in the Playlist layout
+     */
     public class SongsViewHolder extends RecyclerView.ViewHolder {
         TextView titleTextView;
         TextView artistTextView;
@@ -167,6 +182,10 @@ public class playlist extends AppCompatActivity {
 
         }
 
+        /**
+         * Fills the data for the song passed as parameter
+         * @param songs
+         */
         public void bind(Songs songs) {
             titleTextView.setText(songs.getTitle());
             artistTextView.setText(songs.getArtistName());
@@ -208,7 +227,9 @@ public class playlist extends AppCompatActivity {
         }
     }
 
-    // Inner class for SongsAdapter
+    /**
+     * Inner class for SongsAdapter
+     */
     class SongsAdapter extends RecyclerView.Adapter<SongsViewHolder> {
 
         private List<Songs> songsList;
@@ -218,6 +239,13 @@ public class playlist extends AppCompatActivity {
         }
 
 
+        /**
+         * responsible for creating a layout for a row
+         * @param parent   The ViewGroup into which the new View will be added after it is bound to
+         *                 an adapter position.
+         * @param viewType The view type of the new View.
+         * @return
+         */
         @NonNull
         @Override
         public SongsViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -225,6 +253,12 @@ public class playlist extends AppCompatActivity {
             return new SongsViewHolder(playlistBinding.getRoot());
         }
 
+        /**
+         * responsible for setting the objects in the layout for the row based on a position
+         * @param holder   The ViewHolder which should be updated to represent the contents of the
+         *                 item at the given position in the data set.
+         * @param position The position of the item within the adapter's data set.
+         */
         @Override
         public void onBindViewHolder(@NonNull SongsViewHolder holder, int position) {
             SongsDatabase songsDatabase = Room.databaseBuilder(getApplicationContext(), SongsDatabase.class, "deezerDB").build();
@@ -232,10 +266,9 @@ public class playlist extends AppCompatActivity {
             Songs song = songsList.get(position);
             holder.bind(song);
 
-            androidx.appcompat.widget.Toolbar toolbar = holder.songsPlaylist;
-            toolbar.inflateMenu(R.menu.songsplaylist);
-
-            toolbar.setOnMenuItemClickListener(item -> {
+            androidx.appcompat.widget.Toolbar toolbar1 = holder.songsPlaylist;
+            toolbar1.inflateMenu(R.menu.songsplaylist);
+            toolbar1.setOnMenuItemClickListener(item -> {
                 switch (item.getItemId()) {
                     case R.id.delete:
                         AlertDialog.Builder builder = new AlertDialog.Builder(playlist.this);
@@ -325,6 +358,10 @@ public class playlist extends AppCompatActivity {
 
         }
 
+        /**
+         * Plays the preview of the song stored in the playlist
+         * @param previewUrl
+         */
         private void playPreview(String previewUrl) {
             if (mediaPlayer != null && mediaPlayer.isPlaying()) {
                 mediaPlayer.stop();
@@ -351,12 +388,24 @@ public class playlist extends AppCompatActivity {
         }
     }
 
+    /**
+     * Creates the menu for delete or play a preview of the song from the playlist page
+     * @param menu The options menu in which you place your items.
+     *
+     * @return
+     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.deezer_menu, menu);
         return true;
     }
 
+    /**
+     *  Navigate through the different applications
+     * @param item The menu item that was selected.
+     *
+     * @return
+     */
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {

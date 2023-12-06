@@ -3,6 +3,10 @@ package algonquin.cst2335.mobilefinalproject;
 import androidx.room.ColumnInfo;
 import androidx.room.PrimaryKey;
 
+/**
+ * @Author Santiago Garcia
+ * Creates the Databse object for Deezer
+ */
 public class DeezerAlbumDTO {
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name="id")

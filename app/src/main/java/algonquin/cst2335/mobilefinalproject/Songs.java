@@ -6,6 +6,10 @@ import androidx.room.PrimaryKey;
 
 import java.util.Locale;
 
+/**
+ * Data Transfer Object class for Songs
+ * @Author Santiago Garcia
+ */
 @Entity
 public class Songs {
     //? Attributes

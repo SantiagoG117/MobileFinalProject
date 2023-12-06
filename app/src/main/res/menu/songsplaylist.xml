@@ -6,13 +6,11 @@
     <item
         android:id="@+id/preview"
         android:icon="@drawable/play"
-        android:title="Preview Song"
-        app:showAsAction="always" />
+        android:title="Preview Song" />
 
     <item
         android:id="@+id/delete"
         android:icon="@drawable/delete"
-        android:title="Remove Song From Playlist"
-        app:showAsAction="always"/>
+        android:title="Remove Song From Playlist"/>
 
 </menu>

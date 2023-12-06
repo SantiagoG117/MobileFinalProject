@@ -7,6 +7,10 @@ import androidx.room.Query;
 
 import java.util.List;
 
+/**
+ * @Author Santiago Garcia
+ * Data Access Object interface for saving songs to a Playlist
+ */
 @Dao
 public interface DeezerDAO {
 
@@ -20,6 +24,5 @@ public interface DeezerDAO {
     void deleteSongFromPlayList(Songs song);
 
     @Query("SELECT * FROM Songs WHERE title = :title")
-
     List<Songs> searchSong(String title);
 }

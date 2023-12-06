@@ -40,13 +40,13 @@ import algonquin.cst2335.mobilefinalproject.databinding.AlbumBinding;
 import algonquin.cst2335.mobilefinalproject.databinding.DeezerBinding;
 
 /**
+ * @Author Santiago Garcia
  * Launch class in charge of triggering the Deezer application
  */
 public class Deezer extends AppCompatActivity {
     //?Attributes
 
     /**
-     *
      * Initialize the Adapter for the Recycle view
      */
     private RecyclerView.Adapter myAdapter;
@@ -66,13 +66,26 @@ public class Deezer extends AppCompatActivity {
      */
     ArrayList<DeezerAlbumDTO> albumsList = new ArrayList<>();
 
+    /**
+     * View Model for the album
+     */
     AlbumsViewModel albumModel;
+    /**
+     * View Model for the song
+     */
     SongsViewModel songModel;
 
     DeezerBinding binding;
 
     protected Bitmap albumCover;
 
+    /**
+     * Launching code for the Deezer application
+     * @param savedInstanceState If the activity is being re-initialized after
+     *     previously being shut down then this Bundle contains the data it most
+     *     recently supplied in {@link #onSaveInstanceState}.  <b><i>Note: Otherwise it is null.</i></b>
+     *
+     */
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = DeezerBinding.inflate(getLayoutInflater());
@@ -88,9 +101,12 @@ public class Deezer extends AppCompatActivity {
          */
         setTitle("Deezer");
 
+        /**
+         * User instructions for how to use the application
+         */
         AlertDialog.Builder builder = new AlertDialog.Builder(Deezer.this);
-        builder.setMessage(("Info: \n Create your very own deezer playlists here \n 1. click on the Search Icon to look up your favourite artists and youll receive a list of their albums \n 2. Click on any album and all of their tracks within the album will be displayed for you to save \n 3. click on the 3 dotted icon to preview or save your song \n 4. Go ahead ahead and click the playlist icon and all of your favourite music will be displayed. \n 5. You are able to delete any song from your playlist with a click of a button. \n 6. Most important step Enjoy Deezer"))
-                .setTitle("Welcome To Deezer")
+        builder.setMessage(("Info: \n Create your very own deezer playlists here \n 1. click on the Search Icon to look up your favourite artists and you will receive a list of their albums \n 2. Click on any album and all of their tracks within the album will be displayed for you to save \n 3. click on the 3 dotted icon to preview or save your song \n 4. Go ahead ahead and click the playlist icon and all of your favourite music will be displayed. \n 5. You are able to delete any song from your playlist with a click of a button. \n"))
+                .setTitle("Welcome to Deezer")
                 .setPositiveButton("Okay", (dialog, which) -> {
                     dialog.dismiss();
                 }).show();
@@ -195,7 +211,9 @@ public class Deezer extends AppCompatActivity {
                     }
                     ,
                     error -> {
-                        // Error handler
+                        /**
+                         * Error handler
+                         */
                         error.printStackTrace();
                     });
             queue.add(request);
@@ -281,20 +299,24 @@ public class Deezer extends AppCompatActivity {
         });
 
         /**
-         *
+         * Adapter for album's recycle view
          */
         binding.deezerAlbums.setAdapter(myAdapter = new RecyclerView.Adapter<MyAlbumHolder>() {
             @NonNull
             @Override
             public MyAlbumHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-                //Inflates the album layout
+                /**
+                 *  Inflates the album layout
+                 */
                 AlbumBinding albumBinding = AlbumBinding.inflate(getLayoutInflater(), parent, false);
                 return new MyAlbumHolder(albumBinding.getRoot());
             }
 
             @Override
             public void onBindViewHolder(@NonNull MyAlbumHolder holder, int position) {
-                //Sets the data for each row in the recyclerview according to the position and size within the albums list
+                /**
+                 * Sets the data for each row in the recyclerview according to the position and size within the albums list
+                 */
                 DeezerAlbumDTO deezerAlbumDTO = albumsList.get(position);
                 holder.bind(deezerAlbumDTO);
             }
@@ -306,7 +328,7 @@ public class Deezer extends AppCompatActivity {
         });
     }
 
-    //TODO Set Album row holder
+
 
     /**
      * Represents the data that will be displayed on the Recycle view in the Album list layout
@@ -319,9 +341,8 @@ public class Deezer extends AppCompatActivity {
 
         public MyAlbumHolder(@NonNull View itemView) {
             super(itemView);
-            /*
-            * Determines the album that was selected and its position. Then it initialize the
-            * given album.
+            /**
+             * Determines the album that was selected and its position. Then it initialize the given album.
              */
             itemView.setOnClickListener(c -> {
                 int position = getAbsoluteAdapterPosition();
@@ -371,6 +392,11 @@ public class Deezer extends AppCompatActivity {
         }
     }
 
+    /** Creates the manu to add or get the preview of a song
+     *
+     * @param menu The options menu in which you place your items.
+     * @return
+     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         super.onCreateOptionsMenu(menu);
@@ -379,6 +405,12 @@ public class Deezer extends AppCompatActivity {
     }
 
 
+    /**
+     * Navigate through the different applications
+     * @param item The menu item that was selected.
+     *
+     * @return
+     */
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch(item.getItemId()) {
@@ -394,7 +426,7 @@ public class Deezer extends AppCompatActivity {
             case R.id.info:
                 AlertDialog.Builder builder = new AlertDialog.Builder(Deezer.this);
                 builder.setMessage(("Info: \n Create your very own deezer playlists here \n 1. click on the Search Icon to look up your favourite artists and you will receive a list of their albums \n 2. Click on any album and all of their tracks within the album will be displayed for you to save \n 3. click on the 3 dotted icon to preview or save your song \n 4. Go ahead ahead and click the playlist icon and all of your favourite music will be displayed. \n 5. You are able to delete any song from your playlist with a click of a button."))
-                        .setTitle("Welcome To Deezer")
+                        .setTitle("Welcome to Deezer")
                         .setPositiveButton("Okay", (dialog, which) -> {
                             dialog.dismiss();
                         }).show();
