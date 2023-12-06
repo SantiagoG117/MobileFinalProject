@@ -1,4 +1,4 @@
-package algonquin.cst2335.mobilefinalproject;
+package algonquin.cst2335.mobileproject;
 
 import android.content.Context;
 
@@ -21,6 +21,6 @@ public class ExampleInstrumentedTest {
     public void useAppContext() {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
-        assertEquals("algonquin.cst2335.mobilefinalproject", appContext.getPackageName());
+        assertEquals("algonquin.cst2335.mobileproject", appContext.getPackageName());
     }
 }

@@ -3,11 +3,11 @@ plugins {
 }
 
 android {
-    namespace = "algonquin.cst2335.mobilefinalproject"
+    namespace = "algonquin.cst2335.mobileproject"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "algonquin.cst2335.mobilefinalproject"
+        applicationId = "algonquin.cst2335.mobileproject"
         minSdk = 22
         targetSdk = 33
         versionCode = 1
@@ -33,12 +33,6 @@ android {
 
 dependencies {
 
-    val room_version = "2.6.0"
-    implementation ("androidx.room:room-runtime:$room_version")
-    annotationProcessor ("androidx.room:room-compiler:$room_version")
-    implementation ("com.squareup.picasso:picasso:2.8")
-    implementation ("com.android.volley:volley:1.2.1")
-    implementation ("androidx.recyclerview:recyclerview:1.3.2")
     implementation("androidx.appcompat:appcompat:1.6.1")
     implementation("com.google.android.material:material:1.10.0")
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")

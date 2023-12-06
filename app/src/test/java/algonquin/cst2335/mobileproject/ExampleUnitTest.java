@@ -1,4 +1,4 @@
-package algonquin.cst2335.mobilefinalproject;
+package algonquin.cst2335.mobileproject;
 
 import org.junit.Test;
 

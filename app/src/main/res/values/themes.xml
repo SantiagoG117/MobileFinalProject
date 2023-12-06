@@ -1,30 +1,9 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Base.Theme.MobileFinalProject" parent="Theme.Material3.DayNight.NoActionBar">
+    <style name="Base.Theme.MobileProject" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Customize your light theme here. -->
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
-
-        <!-- primary brand colour -->
-        <item name="colorPrimary">@color/lettuce</item>
-        <!-- secondary brand colour -->
-        <item name="colorSecondary">@color/aubergine</item>
-        <!-- status bar colour -->
-        <item name="android:statusBarColor">@color/pumpkin</item>
-        <!-- text colour -->
-        <item name="android:textColor">@color/oatmeal</item>
-
-        <!-- tells android not to use ActionBar, no app title, redundant due to .NoActionBar in theme -->
-        <item name="windowActionBar">false</item>
-        <item name="windowNoTitle">true</item>
-
-        <item name="android:popupMenuStyle">@style/recipeOverflowStyle</item>
-
     </style>
 
-    <style name="Theme.MobileFinalProject" parent="Base.Theme.MobileFinalProject" />
-
-    <style name="recipeOverflowStyle" parent="@style/Widget.AppCompat.PopupMenu.Overflow">
-        <item name="android:popupBackground">@color/pumpkin</item>
-    </style>
-
+    <style name="Theme.MobileProject" parent="Base.Theme.MobileProject" />
 </resources>
