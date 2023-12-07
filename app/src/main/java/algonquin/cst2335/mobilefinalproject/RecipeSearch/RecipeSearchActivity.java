@@ -188,7 +188,6 @@ public class RecipeSearchActivity extends AppCompatActivity {
 
         /**
          * Sets up recyclerView to display data pulled from API call/loaded data,
-
          */
         private void recipeRecyclerView() {
             Log.d("RecipeSearchActivity", "Setting up RecyclerView");
