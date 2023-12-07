@@ -1,9 +1,21 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Base.Theme.MobileFinalProject" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Customize your light theme here. -->
-        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+    <style name="Base.Theme.CST2335GraphicalInterfaceProgramming" parent="Theme.Material3.DayNight">
+
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+
+        <!-- Primary color -->
+        <item name="colorPrimary">@color/my_primary</item>
+
+        <!-- Secondary color -->
+        <item name="colorSecondary">@color/my_secondary</item>
+
+        <!-- Status bar color -->
+        <item name="android:statusBarColor">@color/my_statusbar</item>
+
+        <item name="android:textColor">@color/my_text</item>
     </style>
 
-    <style name="Theme.MobileFinalProject" parent="Base.Theme.MobileFinalProject" />
+    <style name="Theme.CST2335GraphicalInterfaceProgramming" parent="Base.Theme.CST2335GraphicalInterfaceProgramming" />
 </resources>

@@ -1,0 +1,36 @@
+<resources>
+<!--    <string name="app_name">CST2335 Graphical Interface Programming</string>-->
+    <string name="app_name">" recherche du lever et du coucher du soleil"</string>
+    <string name="longitude_input_hint">Entrez la longitude</string>
+    <string name="latitude_input_hint">Entrez la latitude</string>
+    <string name="lookup_text">Chercher</string>
+    <string name="save_location_text">Enregistrer L\'emplacement</string>
+    <string name="view_favorite_locations_text">Afficher les emplacements favoris</string>
+    <string name="location_info">Information de Lieu</string>
+    <string name="latitude_input_text">Entrez la latitude:</string>
+    <string name="longitude_input_text">Entrez la longitude:</string>
+    <string name="back_text">Dos</string>
+    <string name="sunrise_sentence">Heure du lever du soleil:</string>
+    <string name="sunrise_hint">L\'heure du lever du soleil va ici</string>
+    <string name="sunset_sentence">Heure du coucher du soleil:</string>
+    <string name="sunset_hint">L\'heure du coucher du soleil va ici</string>
+    <string name="favourite_locations_list">Liste des emplacements favoris</string>
+    <string name="date_time_sentence">Date et heure actuelles:</string>
+    <string name="date_hint">La date et l\'heure vont ici</string>
+    <string name="latitude_longitude_isEmpty">Veuillez entrer la latitude et la longitude</string>
+    <string name="alert_title">Supprimer/mettre à jour l\'emplacement</string>
+    <string name="time_zone_hint">Le fuseau horaire va ici</string>
+    <string name="save_location_sentence">L\'emplacement a été enregistré avec succès</string>
+    <string name="time_zone_sentence">Fuseau horaire:</string>
+    <string name="alert_sentence">Veuillez choisir l\'une des options ci-dessous</string>
+    <string name="error_message">Erreur lors de la récupération des données</string>
+    <string name="delete_option">Supprimer</string>
+    <string name="update_option">Mise à jour</string>
+    <string name="delete_sentence">L\'emplacement a été supprimé avec succès</string>
+    <string name="update_sentence">L\'emplacement a été mis à jour avec succès</string>
+    <string name="undo">ANNULER</string>
+    <string name="about">À PROPOS</string>
+    <string name="ok">D\'accord</string>
+    <string name="clear">Entrées effacées</string>
+    <string name="clear_message">Entrée effacée</string>
+</resources>

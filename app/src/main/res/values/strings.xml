@@ -1,3 +1,36 @@
 <resources>
-    <string name="app_name">MobileFinalProject</string>
+<!--    <string name="app_name">CST2335 Graphical Interface Programming</string>-->
+    <string name="app_name">Sunrise Sunset Lookup</string>
+    <string name="location_info">Location Information</string>
+    <string name="latitude_input_text">Enter latitude:</string>
+    <string name="latitude_input_hint">Enter latitude</string>
+    <string name="longitude_input_text">Enter longitude:</string>
+    <string name="longitude_input_hint">Enter longitude</string>
+    <string name="lookup_text">Lookup</string>
+    <string name="view_favorite_locations_text">View Favorite Locations</string>
+    <string name="save_location_text">Save Location</string>
+    <string name="back_text">Back</string>
+    <string name="time_zone_sentence">Time zone:</string>
+    <string name="time_zone_hint">Time zone goes here</string>
+    <string name="sunrise_sentence">Sunrise Time:</string>
+    <string name="sunrise_hint">Sunrise time goes here</string>
+    <string name="sunset_sentence">Sunset Time:</string>
+    <string name="sunset_hint">Sunset time goes here</string>
+    <string name="favourite_locations_list">Favourite Locations List</string>
+    <string name="date_time_sentence">Current Date and Time:</string>
+    <string name="date_hint">Date and time go here</string>
+    <string name="latitude_longitude_isEmpty">Please enter latitude and longitude before continuing</string>
+    <string name="save_location_sentence">The location has been successfully saved to favourites</string>
+    <string name="alert_title">Delete/Update Location</string>
+    <string name="alert_sentence">Please choose an option</string>
+    <string name="delete_option">Delete</string>
+    <string name="update_option">Update</string>
+    <string name="error_message">Error fetching data</string>
+    <string name="delete_sentence">The location has been successfully deleted</string>
+    <string name="update_sentence">The location has been successfully</string>
+    <string name="undo">UNDO</string>
+    <string name="ok">OK</string>
+    <string name="about">About</string>
+    <string name="clear">Clear</string>
+    <string name="clear_message">Inputs cleared</string>
 </resources>
