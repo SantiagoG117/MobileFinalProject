@@ -8,18 +8,8 @@ import android.os.Bundle;
 import algonquin.cst2335.mobilefinalproject.Deezer.Deezer;
 import algonquin.cst2335.mobilefinalproject.databinding.ActivityMainBinding;
 
-/**
- * @Author Santiago Garcia
- * Main Activity for the Deezer application
- */
 public class MainActivity extends AppCompatActivity {
 
-    /*
-    * Binding automatically loads all of the Widgets in the layout and assigns them to Java variables automatically.
-    * The compiler will automatically declare the variables for us.
-    *
-    * Binding guarantees that the varibles we are using are part of the layout we have inflated.
-    */
     ActivityMainBinding binding;
 
     @Override
@@ -28,8 +18,16 @@ public class MainActivity extends AppCompatActivity {
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+        // Set up the click listener for the dictionaryButton
+        binding.dictionaryButton.setOnClickListener(click -> {
+            // Start the Dictionary activity when the button is clicked
+            startActivity(new Intent(this, Dictionary.class));
+        });
+
         binding.deezerButton.setOnClickListener(click -> {
             startActivity(new Intent(this, Deezer.class));
         });
     }
+
+
 }

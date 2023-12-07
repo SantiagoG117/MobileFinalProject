@@ -12,6 +12,10 @@
         android:supportsRtl="true"
         android:theme="@style/Base.Theme.CST2335GraphicalInterfaceProgramming"
         tools:targetApi="31">
+        <activity android:name=".Dictionary"
+            android:exported="false"/>
+        <activity android:name=".FavoriteWords"
+            android:exported="false"/>
         <activity android:name=".SunriseSunset.FavoriteLocationList"
             android:exported="false"/>
         <activity android:name=".SunriseSunset.LocationActivity"

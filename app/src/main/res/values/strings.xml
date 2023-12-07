@@ -1,6 +1,5 @@
 <resources>
-<!--    <string name="app_name">CST2335 Graphical Interface Programming</string>-->
-    <string name="app_name">Sunrise Sunset Lookup</string>
+    <string name="sunriseapp_name">Sunrise Sunset Lookup</string>
     <string name="location_info">Location Information</string>
     <string name="latitude_input_text">Enter latitude:</string>
     <string name="latitude_input_hint">Enter latitude</string>
@@ -33,4 +32,12 @@
     <string name="about">About</string>
     <string name="clear">Clear</string>
     <string name="clear_message">Inputs cleared</string>
+    <string name="app_name">MobileFinalProject</string>
+    <string name="dictionaryTextView">Dictionary</string>
+    <string name="searchEditText">Type Here</string>
+    <string name="searchButton">Search</string>
+    <string name="savedDefinitions">View Favorites</string>
+    <string name="faveTitle">Your Favorite Words</string>
+    <string name="definitionsTitle">DEFINITIONS:</string>
+    <string name="help">HELP</string>
 </resources>
