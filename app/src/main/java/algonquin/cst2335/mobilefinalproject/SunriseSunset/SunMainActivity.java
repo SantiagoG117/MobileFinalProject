@@ -12,7 +12,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 //import algonquin.cst2335.SunriseSunset.databinding.ActivityMainBinding;
 import algonquin.cst2335.mobilefinalproject.R;
-import algonquin.cst2335.mobilefinalproject.databinding.ActivityMainBinding;
+import algonquin.cst2335.mobilefinalproject.databinding.SunActivityMainBinding;
 
 /**
  * This class is the main activity of the app
@@ -26,7 +26,7 @@ public class SunMainActivity extends AppCompatActivity {
     /**
      * Binding main activity
      */
-    private ActivityMainBinding mainActivityBinding;
+    private SunActivityMainBinding sunMainActivityBinding;
 
     /**
      * stores user input latitude
@@ -54,7 +54,7 @@ public class SunMainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        mainActivityBinding = ActivityMainBinding.inflate(getLayoutInflater());
+        SunActivityMainBinding mainActivityBinding = SunActivityMainBinding.inflate(getLayoutInflater());
         setContentView(mainActivityBinding.getRoot());
 
         setSupportActionBar(mainActivityBinding.myToolbar);
@@ -126,8 +126,8 @@ public class SunMainActivity extends AppCompatActivity {
                 return true;
 
             case R.id.menu_clear:
-                mainActivityBinding.latitudeInput.setText("");
-                mainActivityBinding.longitudeInput.setText("");
+                sunMainActivityBinding.latitudeInput.setText("");
+                sunMainActivityBinding.longitudeInput.setText("");
 
 //                latitudeInput.remove(position);
 //                longitudeInput.remove(position);

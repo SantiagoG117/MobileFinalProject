@@ -7,10 +7,8 @@ import android.view.ViewGroup;
 
 import androidx.fragment.app.Fragment;
 
-//import algonquin.cst2335.SunriseSunset.databinding.DetailsLayoutBinding;
-//import algonquin.cst2335.data.FavoriteLocation;
 import algonquin.cst2335.mobilefinalproject.data.FavoriteLocation;
-import algonquin.cst2335.mobilefinalproject.databinding.DetailsLayoutBinding;
+import algonquin.cst2335.mobilefinalproject.databinding.SunDetailsLayoutBinding;
 
 public class LocationDetailsFragment extends Fragment {
 
@@ -24,7 +22,7 @@ public class LocationDetailsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
 
-        DetailsLayoutBinding binding = DetailsLayoutBinding.inflate(inflater);
+        SunDetailsLayoutBinding binding = SunDetailsLayoutBinding.inflate(inflater);
 
         binding.messageText.setText(favLocation.latitude);
         binding.timeText.setText(favLocation.longitude);
