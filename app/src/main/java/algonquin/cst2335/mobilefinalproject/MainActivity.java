@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 
+import algonquin.cst2335.mobilefinalproject.Deezer.Deezer;
 import algonquin.cst2335.mobilefinalproject.databinding.ActivityMainBinding;
 
 /**

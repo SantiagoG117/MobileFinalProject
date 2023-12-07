@@ -1,12 +1,10 @@
-package algonquin.cst2335.mobilefinalproject;
+package algonquin.cst2335.mobilefinalproject.Deezer;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.media.MediaPlayer;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Looper;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -16,7 +14,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.Toolbar;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
@@ -44,6 +41,8 @@ import java.util.List;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
+import algonquin.cst2335.mobilefinalproject.MainActivity;
+import algonquin.cst2335.mobilefinalproject.R;
 import algonquin.cst2335.mobilefinalproject.databinding.ActivityPlaylistBinding;
 import algonquin.cst2335.mobilefinalproject.databinding.SongPlaylistBinding;
 

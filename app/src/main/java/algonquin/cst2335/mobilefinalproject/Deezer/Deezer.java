@@ -1,4 +1,4 @@
-package algonquin.cst2335.mobilefinalproject;
+package algonquin.cst2335.mobilefinalproject.Deezer;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -36,6 +36,8 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 
+import algonquin.cst2335.mobilefinalproject.MainActivity;
+import algonquin.cst2335.mobilefinalproject.R;
 import algonquin.cst2335.mobilefinalproject.databinding.AlbumBinding;
 import algonquin.cst2335.mobilefinalproject.databinding.DeezerBinding;
 
@@ -345,7 +347,7 @@ public class Deezer extends AppCompatActivity {
              * Determines the album that was selected and its position. Then it initialize the given album.
              */
             itemView.setOnClickListener(c -> {
-                int position = getAbsoluteAdapterPosition();
+                int position = getAdapterPosition();
                 DeezerAlbumDTO selected = albumsList.get(position);
                 albumModel.selectedAlbums.postValue(selected);
             });

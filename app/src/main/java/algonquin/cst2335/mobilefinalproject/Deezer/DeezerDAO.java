@@ -1,4 +1,4 @@
-package algonquin.cst2335.mobilefinalproject;
+package algonquin.cst2335.mobilefinalproject.Deezer;
 
 import androidx.room.Dao;
 import androidx.room.Delete;

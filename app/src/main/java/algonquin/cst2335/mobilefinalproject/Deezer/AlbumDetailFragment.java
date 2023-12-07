@@ -1,4 +1,4 @@
-package algonquin.cst2335.mobilefinalproject;
+package algonquin.cst2335.mobilefinalproject.Deezer;
 
 import android.app.Activity;
 import android.graphics.Bitmap;
@@ -35,6 +35,7 @@ import java.util.List;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
+import algonquin.cst2335.mobilefinalproject.R;
 import algonquin.cst2335.mobilefinalproject.databinding.AlbumlistLayoutBinding;
 import algonquin.cst2335.mobilefinalproject.databinding.SongBinding;
 
