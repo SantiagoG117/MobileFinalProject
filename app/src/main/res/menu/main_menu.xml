@@ -5,6 +5,6 @@
 
     <item
         android:id="@+id/help"
-        android:title="HELP"
+        android:title="@string/help"
         app:showAsAction="always" />
 </menu>

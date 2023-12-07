@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">MobileFinalProject</string>
+    <string name="dictionaryTextView">Dictionary</string>
+    <string name="searchEditText">Type Here</string>
+    <string name="searchButton">Search</string>
+    <string name="savedDefinitions">View Favorites</string>
+    <string name="faveTitle">Your Favorite Words</string>
+    <string name="definitionsTitle">DEFINITIONS:</string>
+    <string name="help">HELP</string>
 </resources>

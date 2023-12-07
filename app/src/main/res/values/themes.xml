@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
     <style name="Base.Theme.MobileFinalProject" parent="Theme.Material3.DayNight.NoActionBar">
-        <item name="colorPrimary">@color/Red</item>
+        <item name="colorPrimary">@color/holo_red_light</item>
 
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>

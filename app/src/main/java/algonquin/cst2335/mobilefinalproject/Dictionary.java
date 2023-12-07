@@ -36,27 +36,25 @@ import java.util.List;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
+/**
+ * The `Dictionary` class represents the main activity of a dictionary application.
+ * It allows users to search for word definitions, view saved definitions, and access help information.
+ */
 public class Dictionary extends AppCompatActivity {
     private DictionaryDatabase db;
     private RecyclerView recyclerView;
     private EditText searchEditText;
     private Button searchButton;
     private Button viewSavedButton;
-
     DictionaryViewModel viewModel;
-
     private ArrayList<DictionaryItem> wordDefinitionsList = new ArrayList<>();
-
     private ArrayList<DictionaryItem> favsList = new ArrayList<>();
     private WordDefinitionAdapter adapter;
-
     androidx.appcompat.widget.Toolbar toolbar;
-
     RequestQueue queue;
 
     /**
      * Initializes the activity layout, sets up the toolbar, RecyclerView, and click listeners for buttons.
-     *
      * @param savedInstanceState The saved state of the activity (if available)
      */
     @Override
@@ -97,7 +95,6 @@ public class Dictionary extends AppCompatActivity {
             Intent intent = new Intent(this, FavoriteWords.class);
             startActivity(intent);
         });
-
     }
 
     /**
@@ -123,9 +120,9 @@ public class Dictionary extends AppCompatActivity {
         AlertDialog dialog = builder.create();
         dialog.show();
     }
+
     /**
      * Handles the response from the API containing word definitions and populates the RecyclerView with the data.
-     *
      * @param response   The JSON response received from the API
      * @param searchTerm The term used for the search
      */
@@ -160,17 +157,13 @@ public class Dictionary extends AppCompatActivity {
             Toast.makeText(Dictionary.this, "Error parsing response", Toast.LENGTH_SHORT).show();
         }
     }
+
     /**
      * Custom adapter for displaying word definitions in a RecyclerView and managing favorites.
      */
     public class WordDefinitionAdapter extends RecyclerView.Adapter<WordDefinitionAdapter.ViewHolder> {
-
         private List<DictionaryItem> wordDefinitionsList;
 
-
-        public WordDefinitionAdapter(List<DictionaryItem> wordDefinitionsList) {
-            this.wordDefinitionsList = wordDefinitionsList;
-        }
         /**
          * ViewHolder class for displaying word definitions and managing favorites in RecyclerView items.
          */
@@ -178,24 +171,35 @@ public class Dictionary extends AppCompatActivity {
             TextView definitionTextView;
             androidx.appcompat.widget.Toolbar definitionsMenu;
 
+            /**
+             * Constructs a new ViewHolder for displaying word definitions and managing favorites in a RecyclerView item.
+             * @param itemView The view representing a single item in the RecyclerView.
+             */
             public ViewHolder(View itemView) {
                 super(itemView);
                 definitionTextView = itemView.findViewById(R.id.definitionTextView);
                 definitionsMenu = itemView.findViewById(R.id.definitionsToolbar);
             }
+
             /**
              * Binds a definition to the ViewHolder item.
-             *
              * @param definition The definition text to be displayed
              */
             public void bind(String definition) {
                 definitionTextView.setText(definition);
-
             }
         }
+
+        /**
+         * Constructs a new WordDefinitionAdapter to manage the display of word definitions in a RecyclerView.
+         * @param wordDefinitionsList The list of DictionaryItem objects containing word definitions to be displayed.
+         */
+        public WordDefinitionAdapter(List<DictionaryItem> wordDefinitionsList) {
+            this.wordDefinitionsList = wordDefinitionsList;
+        }
+
         /**
          * Called by RecyclerView when it needs a new ViewHolder of the given type to represent an item.
-         *
          * @param parent   The ViewGroup into which the new View will be added after it is bound to an adapter position
          * @param viewType The type of the new View
          * @return A new ViewHolder that holds a View of the given view type
@@ -206,68 +210,69 @@ public class Dictionary extends AppCompatActivity {
             View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.definition_list, parent, false);
             return new ViewHolder(view);
         }
+
         /**
          * Called by RecyclerView to display the data at the specified position.
-         *
          * @param holder   The ViewHolder which should be updated to represent the contents of the item at the given position
          * @param position The position of the item within the adapter's data set
          */
         @Override
         public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-            String definition = wordDefinitionsList.get(position).getDefinitions(); //
+            String definition = wordDefinitionsList.get(position).getDefinitions();
             holder.bind(definition);
 
-            db = Room.databaseBuilder(Dictionary.this, DictionaryDatabase.class,"dictionaryDatabase").build();
+            db = Room.databaseBuilder(Dictionary.this, DictionaryDatabase.class, "dictionaryDatabase").build();
             DictionaryItemDAO dDAO = db.dictionaryItemDAO();
             androidx.appcompat.widget.Toolbar toolbar = holder.definitionsMenu;
             toolbar.inflateMenu(R.menu.definitions_menu);
 
-            toolbar.setOnMenuItemClickListener(item ->{
-                if (item.getItemId() == R.id.save){
-                        AlertDialog.Builder builder = new AlertDialog.Builder(Dictionary.this);
-                        builder.setMessage("Do you want to add this Definition to your Favourites?")
-                                .setTitle("Add")
-                                .setNegativeButton("No", (dialog, which) -> {
-                                })
-                                .setPositiveButton("Yes", (dialog, which) -> {
+            toolbar.setOnMenuItemClickListener(item -> {
+                if (item.getItemId() == R.id.save) {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(Dictionary.this);
+                    builder.setMessage("Do you want to add this Definition to your Favorites?")
+                            .setTitle("Add")
+                            .setNegativeButton("No", (dialog, which) -> {
+                            })
+                            .setPositiveButton("Yes", (dialog, which) -> {
 
-                                    DictionaryItem definitionToAdd = wordDefinitionsList.get(position);
-                                    favsList.add(definitionToAdd);
+                                DictionaryItem definitionToAdd = wordDefinitionsList.get(position);
+                                favsList.add(definitionToAdd);
 
-                                    if (definitionToAdd != null) {
-                                        adapter.notifyItemChanged(position);
-                                        Executor thread1 = Executors.newSingleThreadExecutor();
-                                        thread1.execute(() -> {
-                                            try {
-                                                // Ensure that the insertSong method is correctly implemented
-                                                dDAO.insertItemDefinition(definitionToAdd);
-                                                Log.d("InsertResult", "Rows affected: " + definitionToAdd);
-                                            } catch (Exception e) {
-                                                Log.e("InsertError", "Error inserting song", e);
-                                            }
-                                        });
+                                if (definitionToAdd != null) {
+                                    Executor thread1 = Executors.newSingleThreadExecutor();
+                                    thread1.execute(() -> {
+                                        try {
+                                            // Ensure that the insertItemDefinition method is correctly implemented
+                                            dDAO.insertItemDefinition(definitionToAdd);
+                                            Log.d("InsertResult", "Rows affected: " + definitionToAdd);
+                                        } catch (Exception e) {
+                                            Log.e("InsertError", "Error inserting definition", e);
+                                        }
+                                    });
 
-                                        // Log to check if the song is being added to the list
-                                        Log.d("definition", "definition to add: " + definitionToAdd); //
+                                    // Log to check if the definition is being added to the list
+                                    Log.d("Definition", "Definition to add: " + definitionToAdd);
 
-                                        Snackbar.make(findViewById(android.R.id.content), "definition added to favourites", Snackbar.LENGTH_LONG)
-                                                .setAction("Undo", (btn) -> {
-                                                    Executor thread2 = Executors.newSingleThreadExecutor();
-                                                    thread2.execute(() -> {
-                                                        // undo the addition from the database
-                                                        dDAO.deleteItemDefinition(definitionToAdd);
-                                                    });
-                                                    wordDefinitionsList.remove(definitionToAdd);
-                                                    adapter.notifyItemChanged(position);
-                                                })
-                                                .show();
-                                    }
-                                });
-                        builder.create().show();
+                                    Snackbar.make(findViewById(android.R.id.content), "Definition added to favourites", Snackbar.LENGTH_LONG)
+                                        .setAction("Undo", (btn) -> {
+                                            Executor thread2 = Executors.newSingleThreadExecutor();
+                                            thread2.execute(() -> {
+                                                // undo the addition from the database
+                                                dDAO.deleteItemDefinition(definitionToAdd);
+                                            });
+                                            // undo the addition from the list
+                                            wordDefinitionsList.remove(definitionToAdd);
+                                            // Notify adapter of the data change
+                                            adapter.notifyItemRemoved(position);
+                                        }).show();
+                                }
+                            });
+                    builder.create().show();
                 }
                 return false;
             });
         }
+
         /**
          * Returns the total number of items in the data set held by the adapter.
          *
@@ -281,7 +286,6 @@ public class Dictionary extends AppCompatActivity {
 
     /**
      * Inflates the options menu in the activity toolbar.
-     *
      * @param menu The options menu in which items are placed
      * @return True for the menu to be displayed; false otherwise
      */
@@ -290,9 +294,9 @@ public class Dictionary extends AppCompatActivity {
         getMenuInflater().inflate(R.menu.main_menu,menu);
         return true;
     }
+
     /**
      * Handles options menu item selections.
-     *
      * @param item The menu item that was selected
      * @return True if the selection was handled; false otherwise
      */
@@ -305,12 +309,11 @@ public class Dictionary extends AppCompatActivity {
             showHelpInformation();
             return true;
         }
-
         return false;
     }
+
     /**
      * Saves the searched word to SharedPreferences.
-     *
      * @param searchTerm The word to be saved
      */
     private void saveSearchedWord(String searchTerm) {
@@ -319,6 +322,7 @@ public class Dictionary extends AppCompatActivity {
         editor.putString("last_searched_word", searchTerm);
         editor.apply();
     }
+
     /**
      * Retrieves the last searched word from SharedPreferences and sets it in the search EditText on activity resume.
      */
@@ -333,7 +337,6 @@ public class Dictionary extends AppCompatActivity {
 
     /**
      * Retrieves the last searched word from SharedPreferences.
-     *
      * @return The last searched word
      */
     private String getSavedSearchedWord() {

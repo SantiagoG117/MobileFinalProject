@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">MobilePangwakasNaProyekto</string>
+    <string name="dictionaryTextView">Diksyunaryo</string>
+    <string name="searchEditText">Mag-sulat dito</string>
+    <string name="searchButton">Hanap</string>
+    <string name="savedDefinitions">Tingnan ang paborito</string>
+    <string name="faveTitle">Mga Paboritong Salita</string>
+    <string name="definitionsTitle">KAHULUGAN:</string>
+    <string name="help">TULONG</string>
+</resources>
